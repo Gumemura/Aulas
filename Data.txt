@@ -1,6 +1,2 @@
-joao 10 terra
-maria 45 beterraba
-pedrao 90 suspensorios
-paulinha 23 series
-gomes 26 atum
-Guilherme 25 Jogos
+pedrito 56 xadrez
+gabriel 67 uva
