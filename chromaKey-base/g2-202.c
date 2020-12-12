@@ -203,13 +203,21 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 	med_green = sum_green / (sub_square * sub_square);
 	med_blue = sum_blue / (sub_square * sub_square);
 
+	int hf, wf;
+
 	//Passan por cada pixel
-	for (int h = 0; h < front -> height; h++){
-		for (int w = 0; w < front -> width; w++){
-			if(DistanciaEntreCores(mask[h][w].r, mask[h][w].g, mask[h][w].b, med_red, med_green, med_blue) >= threshold){
-				pixout[h][w].r = mask[h][w].r;
-				pixout[h][w].g = mask[h][w].g;
-				pixout[h][w].b = mask[h][w].b;
+	for (int h = 0; h < back -> height; h++){
+		for (int w = 0; w < back -> width; w++){
+
+			hf = h;
+			wf = w;
+			hf -= (front -> height) * (h / front -> height);
+			wf -= (front -> width) * (w / front -> width);
+
+			if(DistanciaEntreCores(mask[hf][wf].r, mask[hf][wf].g, mask[hf][wf].b, med_red, med_green, med_blue) >= threshold){
+				pixout[h][w].r = mask[hf][wf].r;
+				pixout[h][w].g = mask[hf][wf].g;
+				pixout[h][w].b = mask[hf][wf].b;
 			}else{
 				pixout[h][w].r = pixels[h][w].r;
 				pixout[h][w].g = pixels[h][w].g;
