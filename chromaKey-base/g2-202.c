@@ -203,7 +203,7 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 	med_green = sum_green / (sub_square * sub_square);
 	med_blue = sum_blue / (sub_square * sub_square);
 
-	int hf, wf;
+	int hf, wf; //Coordenadas proprias da imagem front
 
 	//Passan por cada pixel
 	for (int h = 0; h < back -> height; h++){
@@ -211,6 +211,7 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 
 			hf = h;
 			wf = w;
+			//Ajustando as coordenadas do front caso as dimensoes sejam diferentes
 			hf -= (front -> height) * (h / front -> height);
 			wf -= (front -> width) * (w / front -> width);
 
