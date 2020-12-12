@@ -185,49 +185,39 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 	int sum_red, sum_green, sum_blue; //Somas das cores (usado para calculo da média)
 	int med_red, med_green, med_blue; //Médias das cores
 
+	//Zerando valores
 	sum_red = sum_green = sum_blue = 0;
 	med_red = med_green = med_blue = 0;
 
-	//Acessando os subquadrados de tamanho sub_square x sub_square (sub_square = 10 por padrão)
-	for (int w_square = 0; w_square < front -> width - 1; w_square = w_square + sub_square){
-		for (int h_square = 0; h_square < front -> height - 1; h_square = h_square + sub_square){
+	//Calculando a média da cor de fundo. Analisado o primeiro quadrado no canto superior direito
+	for (int h = 0; h < sub_square; h++){
+		for (int w = 0; w < sub_square; w++){
+			sum_red += mask[h][w].r;
+			sum_green += mask[h][w].g;
+			sum_blue += mask[h][w].b;			
+		}
+	}
 
-			//Acessando os pixels do sub quadrado para calcular as médias
-			for (int w = w_square; w < w_square + sub_square; w++){
-				for (int h = h_square; h < h_square + sub_square; h++){
-					if(w < front -> width && h < front -> height){
-						sum_red += mask[w][h].r;
-						sum_green += mask[w][h].g;
-						sum_blue += mask[w][h].b;
-					}
-				}
-			}
-			med_red = sum_red / (sub_square * sub_square);
-			med_green = sum_green / (sub_square * sub_square);
-			med_blue = sum_blue / (sub_square * sub_square);
+	//Calculando medias
+	med_red = sum_red / (sub_square * sub_square);
+	med_green = sum_green / (sub_square * sub_square);
+	med_blue = sum_blue / (sub_square * sub_square);
 
-			//Acessando os pixels do sub quadrado para compara-los com a media e alterar seus valores
-			for (int w = w_square; w < w_square + sub_square; w++){
-				for (int h = h_square; h < h_square + sub_square; h++){
-					if(w < front -> width && h < front -> height){
-						if(DistanciaEntreCores(mask[w][h].r, mask[w][h].g, mask[w][h].b, med_red, med_green, med_blue) > threshold){
-							pixout[w][h].r = mask[w][h].r;
-							pixout[w][h].g = mask[w][h].g;
-							pixout[w][h].b = mask[w][h].b;
-						}else{
-							pixout[w][h].r = pixels[w][h].r;
-							pixout[w][h].g = pixels[w][h].g;
-							pixout[w][h].b = pixels[w][h].b;
-						}
-					}
-				}
+	//Passan por cada pixel
+	for (int h = 0; h < front -> height; h++){
+		for (int w = 0; w < front -> width; w++){
+			if(DistanciaEntreCores(mask[h][w].r, mask[h][w].g, mask[h][w].b, med_red, med_green, med_blue) >= threshold){
+				pixout[h][w].r = mask[h][w].r;
+				pixout[h][w].g = mask[h][w].g;
+				pixout[h][w].b = mask[h][w].b;
+			}else{
+				pixout[h][w].r = pixels[h][w].r;
+				pixout[h][w].g = pixels[h][w].g;
+				pixout[h][w].b = pixels[h][w].b;
 			}
 		}
 	}
 }
-
-
-
 
 void reshape(int w, int h)
 {
