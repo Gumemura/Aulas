@@ -159,6 +159,7 @@ void draw()
 }
 
 float DistanciaEntreCores(int r, int g, int b, int mr, int mg, int mb){
+	//aplicação da formula para calculo da distancia entre dois vetores
 	return sqrt(pow(mr - r, 2) + pow(mg - g, 2) + pow(mb - b, 2));
 }
 
@@ -177,11 +178,11 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 	//     não há motivo algum, no entanto, para que alteres o restante 
 	//     do código disponibilizado
 	//
-	// Seu nome/matrícula aqui: 
+	// Seu nome/matrícula aqui: Artur Rees 19204225-7
 	//
 	//////////////////////////////////////////////////////////////////////////
 
-	int sub_square = 10; //Lateral do quadrado do qual será pega a média das cores
+	int sub_square = 10; //Lateral do quadrado do qual será pega a média da cor de fundo
 	int sum_red, sum_green, sum_blue; //Somas das cores (usado para calculo da média)
 	int med_red, med_green, med_blue; //Médias das cores
 
@@ -189,7 +190,7 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 	sum_red = sum_green = sum_blue = 0;
 	med_red = med_green = med_blue = 0;
 
-	//Calculando a média da cor de fundo. Analisado o primeiro quadrado no canto superior direito
+	//Calculando a média da cor de fundo. Analisado o primeiro quadrado no canto superior direito de tamanho sub_square x sub_square
 	for (int h = 0; h < sub_square; h++){
 		for (int w = 0; w < sub_square; w++){
 			sum_red += mask[h][w].r;
@@ -205,13 +206,13 @@ void chromaKey(Img* back, Img* front, Img* out, int threshold) {
 
 	int hf, wf; //Coordenadas proprias da imagem front
 
-	//Passan por cada pixel
+	//Passando por cada pixel
 	for (int h = 0; h < back -> height; h++){
 		for (int w = 0; w < back -> width; w++){
 
 			hf = h;
 			wf = w;
-			//Ajustando as coordenadas do front caso as dimensoes sejam diferentes
+			//Ajustando as coordenadas do front caso as dimensoes do front e back sejam diferentes
 			hf -= (front -> height) * (h / front -> height);
 			wf -= (front -> width) * (w / front -> width);
 
